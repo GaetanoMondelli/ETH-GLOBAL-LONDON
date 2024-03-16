@@ -1,0 +1,115 @@
+{
+  "address": "0xf33EDdcc0F79232DE20fbE59F1D814678161D79c",
+  "abi": [
+    {
+      "inputs": [],
+      "stateMutability": "payable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_address",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_data",
+          "type": "bytes"
+        }
+      ],
+      "name": "register",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_maci",
+          "type": "address"
+        }
+      ],
+      "name": "setMaciInstance",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x491db952ca1d7ad8b6739fffc180e866aef5a9fcdb4ef2eb268f2e8ba7f03ba6",
+  "receipt": {
+    "to": null,
+    "from": "0x2a1F5eB3e84e58e6F1e565306298B9dE1273f203",
+    "contractAddress": "0xf33EDdcc0F79232DE20fbE59F1D814678161D79c",
+    "transactionIndex": 0,
+    "gasUsed": "196377",
+    "logsBloom": "0x00200000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000040000000000000000000000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000040000000000000000000000000200000000000000000000000000000000000000000000",
+    "blockHash": "0x570e6effc1115786b74e47b2c8a59ad2313a8ebf808148975fcc67160ab7177b",
+    "transactionHash": "0x491db952ca1d7ad8b6739fffc180e866aef5a9fcdb4ef2eb268f2e8ba7f03ba6",
+    "logs": [
+      {
+        "transactionIndex": 0,
+        "blockNumber": 12361887,
+        "transactionHash": "0x491db952ca1d7ad8b6739fffc180e866aef5a9fcdb4ef2eb268f2e8ba7f03ba6",
+        "address": "0x0000000000000000000000000000000000007005",
+        "topics": [
+          "0x33c981baba081f8fd2c52ac6ad1ea95b6814b4376640f55689051f6584729688",
+          "0x0000000000000000000000002a1f5eb3e84e58e6f1e565306298b9de1273f203"
+        ],
+        "data": "0x000000000000000000000000f33eddcc0f79232de20fbe59f1d814678161d79c",
+        "logIndex": 0,
+        "blockHash": "0x570e6effc1115786b74e47b2c8a59ad2313a8ebf808148975fcc67160ab7177b"
+      }
+    ],
+    "blockNumber": 12361887,
+    "cumulativeGasUsed": "196377",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "3ae2ddf96e357baffd6ea2db0ecb1b2d",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"payable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"_data\",\"type\":\"bytes\"}],\"name\":\"register\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_maci\",\"type\":\"address\"}],\"name\":\"setMaciInstance\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"register(address,bytes)\":{\"params\":{\"_address\":\"The address of the user\",\"_data\":\"memory additional data\"}},\"setMaciInstance(address)\":{\"params\":{\"_maci\":\"The MACI contract\"}}},\"title\":\"FreeForAllGatekeeper\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"constructor\":{\"notice\":\"Create a new instance of FreeForAllGatekeeper\"},\"register(address,bytes)\":{\"notice\":\"Registers the user without any restrictions.\"},\"setMaciInstance(address)\":{\"notice\":\"setMaciInstance does nothing in this gatekeeper\"}},\"notice\":\"A SignUpGatekeeper which allows anyone to sign up.\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/gatekeepers/FreeForAllSignUpGatekeeper.sol\":\"FreeForAllGatekeeper\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/gatekeepers/FreeForAllSignUpGatekeeper.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.10;\\n\\nimport { SignUpGatekeeper } from \\\"./SignUpGatekeeper.sol\\\";\\n\\n/// @title FreeForAllGatekeeper\\n/// @notice A SignUpGatekeeper which allows anyone to sign up.\\ncontract FreeForAllGatekeeper is SignUpGatekeeper {\\n  /// @notice Create a new instance of FreeForAllGatekeeper\\n  // solhint-disable-next-line no-empty-blocks\\n  constructor() payable {}\\n\\n  /// @notice setMaciInstance does nothing in this gatekeeper\\n  /// @param _maci The MACI contract\\n  // solhint-disable-next-line no-empty-blocks\\n  function setMaciInstance(address _maci) public override {}\\n\\n  /// @notice Registers the user without any restrictions.\\n  /// @param _address The address of the user\\n  /// @param _data memory additional data\\n  // solhint-disable-next-line no-empty-blocks\\n  function register(address _address, bytes memory _data) public override {}\\n}\\n\",\"keccak256\":\"0x14c23893ad766ad645e84ba719008755ad0fcf4ec7b13b62950935b79619c7a9\",\"license\":\"MIT\"},\"contracts/gatekeepers/SignUpGatekeeper.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.10;\\n\\n/// @title SignUpGatekeeper\\n/// @notice A gatekeeper contract which allows users to sign up for a poll.\\nabstract contract SignUpGatekeeper {\\n  /// @notice Allows to set the MACI contract\\n  // solhint-disable-next-line no-empty-blocks\\n  function setMaciInstance(address _maci) public virtual {}\\n\\n  /// @notice Registers the user\\n  /// @param _user The address of the user\\n  /// @param _data additional data\\n  // solhint-disable-next-line no-empty-blocks\\n  function register(address _user, bytes memory _data) public virtual {}\\n}\\n\",\"keccak256\":\"0x6a2d8b704a584adefc185fe25fac29e2d9174a29eb0834beef7e8191ed5028d3\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x60806040526101ac806100136000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c806313e65cf31461003b57806324b8fbf61461004e575b600080fd5b61004c61004936600461007c565b50565b005b61004c61005c3660046100b4565b5050565b80356001600160a01b038116811461007757600080fd5b919050565b60006020828403121561008e57600080fd5b61009782610060565b9392505050565b634e487b7160e01b600052604160045260246000fd5b600080604083850312156100c757600080fd5b6100d083610060565b9150602083013567ffffffffffffffff808211156100ed57600080fd5b818501915085601f83011261010157600080fd5b8135818111156101135761011361009e565b604051601f8201601f19908116603f0116810190838211818310171561013b5761013b61009e565b8160405282815288602084870101111561015457600080fd5b826020860160208301376000602084830101528095505050505050925092905056fea26469706673582212205cfaace5b82e4de9767b93f64200b2fdb0caec5c9000825ace54f43f17dabf7b64736f6c63430008110033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100365760003560e01c806313e65cf31461003b57806324b8fbf61461004e575b600080fd5b61004c61004936600461007c565b50565b005b61004c61005c3660046100b4565b5050565b80356001600160a01b038116811461007757600080fd5b919050565b60006020828403121561008e57600080fd5b61009782610060565b9392505050565b634e487b7160e01b600052604160045260246000fd5b600080604083850312156100c757600080fd5b6100d083610060565b9150602083013567ffffffffffffffff808211156100ed57600080fd5b818501915085601f83011261010157600080fd5b8135818111156101135761011361009e565b604051601f8201601f19908116603f0116810190838211818310171561013b5761013b61009e565b8160405282815288602084870101111561015457600080fd5b826020860160208301376000602084830101528095505050505050925092905056fea26469706673582212205cfaace5b82e4de9767b93f64200b2fdb0caec5c9000825ace54f43f17dabf7b64736f6c63430008110033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "register(address,bytes)": {
+        "params": {
+          "_address": "The address of the user",
+          "_data": "memory additional data"
+        }
+      },
+      "setMaciInstance(address)": {
+        "params": {
+          "_maci": "The MACI contract"
+        }
+      }
+    },
+    "title": "FreeForAllGatekeeper",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "constructor": {
+        "notice": "Create a new instance of FreeForAllGatekeeper"
+      },
+      "register(address,bytes)": {
+        "notice": "Registers the user without any restrictions."
+      },
+      "setMaciInstance(address)": {
+        "notice": "setMaciInstance does nothing in this gatekeeper"
+      }
+    },
+    "notice": "A SignUpGatekeeper which allows anyone to sign up.",
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [],
+    "types": null
+  }
+}

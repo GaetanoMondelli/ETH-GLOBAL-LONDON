@@ -208,19 +208,19 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   const maci = await hre.ethers.getContract<Contract>("MACI", deployer);
   // node build/ts/index.js deployPoll -t 300 -i 1 -m 2 -b 1 -v 2 -pk $COORDINATOR_PUBLIC_KEY
 
-  await hre.run("verify:verify", {
-    address: "0xDCB5008c6074bEB53317027534431b2c75B77eD4",
-    constructorArguments: [
-      "0xff5cdbb96477B974E1d72af11A725EC761F4FfC4",
-      "0x4d14c5856eadb0364308d3f086c16c9820bc6f34",
-      "0x79A975746ED76D152524e07ed030EF84e298b438",
-      "0x4141B41ef3e87391FeD40d76a9d5350c2BD9638E",
-      "0xf33EDdcc0F79232DE20fbE59F1D814678161D79c",
-      "0xC946BF8e51E6861BEf8831a458cF174771a777F7",
-      "0xe63D576Dbff811650F9823a63Ed05DEfE5f43533",
-      stateTreeDepth,
-    ],
-  });
+  // await hre.run("verify:verify", {
+  //   address: maci.address,
+  //   constructorArguments: [
+  //     contractsNameToAddress.get("PollFactory"),
+  //     contractsNameToAddress.get("MessageProcessorFactory"),
+  //     contractsNameToAddress.get("TallyFactory"),
+  //     contractsNameToAddress.get("SubsidyFactory"),
+  //     signupGatekeeperAddress,
+  //     initialVoiceCreditsProxyAddress,
+  //     topupCreditAddress,
+  //     stateTreeDepth,
+  //   ],
+  // });
 
   const pollDuration = 6000;
   const intStateTreeDepth = 2;
@@ -229,14 +229,14 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   const voteOptionTreeDepth = 2;
   const subsidyEnabled = false;
 
-  await deploy("SnarkVerifier", {
+  await deploy("Verifier", {
     from: deployer,
     args: [],
     log: true,
     autoMine: true,
   });
 
-  const verifierContract = await hre.ethers.getContract<Contract>("SnarkVerifier", deployer);
+  const verifierContract = await hre.ethers.getContract<Contract>("Verifier", deployer);
   const verifierContractAddress = await verifierContract.getAddress();
 
   const userPubKey = "macipk.f61e0aa75073f94c681cc495990cee21027208348598d65638696a1a3754f29b";

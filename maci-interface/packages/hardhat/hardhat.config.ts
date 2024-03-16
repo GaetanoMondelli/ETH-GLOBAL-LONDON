@@ -54,8 +54,10 @@ const config: HardhatUserConfig = {
       },
     },
     chiliz: {
-      url: 'https://rpc.chiliz.com',
-      accounts: [deployerPrivateKey2]
+      url: 'https://spicy-rpc.chiliz.com',
+      chainId: 88882,
+      accounts: [deployerPrivateKey2],
+      gasPrice: 2500000000000,
     },
     mainnet: {
       url: `https://eth-mainnet.alchemyapi.io/v2/${providerApiKey}`,
@@ -141,15 +143,15 @@ const config: HardhatUserConfig = {
   // configuration for harhdat-verify plugin
   etherscan: {
     apiKey: {
-      chiliz: "chiliz", // apiKey is not required, just set a placeholder
+      chiliz: "chiliz spicy", // apiKey is not required, just set a placeholder
     },
     customChains: [
       {
         network: "chiliz",
-        chainId: 88888,
+        chainId: 88882,
         urls: {
-          apiURL: "https://api.routescan.io/v2/network/mainnet/evm/88888/etherscan",
-          browserURL: "https://chiliscan.com"
+          apiURL: "https://api.routescan.io/v2/network/testnet/evm/88882/etherscan",
+          browserURL: "https://testnet.chiliscan.com/"
         }
       }
     ]
