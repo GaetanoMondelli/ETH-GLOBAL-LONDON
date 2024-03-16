@@ -13,11 +13,11 @@ MIKE_PRIVATE_KEY=macisk.984e4f56a8ef50d6aee6a3bcb1df6058c0d336ed9aff26a7aff78799
 COORDINATOR_PUBLIC_KEY=macipk.21d4940747c489b5cfb650e18137275fed6d1f6011bc443faed02099dd9aa5aa
 COORDINATOR_PRIVATE_KEY=macisk.9db138fd3d7cb1c3dffef45d29c5cbc7dee307ca5daf5ccd9121bfffa8c79d2e
 
-rm -rf proofs
-rm localState.json
-rm tally.json
-rm tally2.json
-rm tally3.json
+# rm -rf proofs
+# rm localState.json
+# rm tally.json
+# rm tally2.json
+# rm tally3.json
 
 echo "Deploying VK Registry"
 
@@ -87,7 +87,7 @@ node build/ts/index.js mergeMessages -o 0
 
 echo "generate MACI state off chain"
 
-node build/ts/index.js genLocalState -p 0 -o localState.json -sk $COORDINATOR_PRIVATE_KEY -bb 50
+node build/ts/index.js genLocalState -p 0 -o localState33.json -sk $COORDINATOR_PRIVATE_KEY -bb 50
 
 
 # echo "generate proofs C++ witness parameters"
@@ -108,7 +108,7 @@ node build/ts/index.js genLocalState -p 0 -o localState.json -sk $COORDINATOR_PR
 node build/ts/index.js genProofs \
     -sk $COORDINATOR_PRIVATE_KEY \
     -o 0 \
-    -t tally3.json \
+    -t tally33.json \
     -f proofs \
     -zp ./zkeys/ProcessMessages_10-2-1-2_test/ProcessMessages_10-2-1-2_test.0.zkey \
     -zt ./zkeys/TallyVotes_10-1-2_test/TallyVotes_10-1-2_test.0.zkey \
