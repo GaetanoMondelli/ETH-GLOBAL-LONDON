@@ -214,22 +214,22 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   await topupCredit.airdrop("100000");
 
 
-  console.log("here i go again", await topupCredit.getAddress(), await topupCredit.owner());
+  // console.log("here i go again", await topupCredit.getAddress(), await topupCredit.owner());
 
-  await hre.run("verify:verify", {
-    address: "0xDCB5008c6074bEB53317027534431b2c75B77eD4",
-    constructorArguments: [
-      "0xff5cdbb96477B974E1d72af11A725EC761F4FfC4",
-      "0x4d14c5856eadb0364308d3f086c16c9820bc6f34",
-      "0x79A975746ED76D152524e07ed030EF84e298b438",
-      "0x4141B41ef3e87391FeD40d76a9d5350c2BD9638E",
-      "0xf33EDdcc0F79232DE20fbE59F1D814678161D79c",
-      "0xC946BF8e51E6861BEf8831a458cF174771a777F7",
-      "0xe63D576Dbff811650F9823a63Ed05DEfE5f43533",
-      stateTreeDepth,
-    ],
+  // await hre.run("verify:verify", {
+  //   address: "0xDCB5008c6074bEB53317027534431b2c75B77eD4",
+  //   constructorArguments: [
+  //     "0xff5cdbb96477B974E1d72af11A725EC761F4FfC4",
+  //     "0x4d14c5856eadb0364308d3f086c16c9820bc6f34",
+  //     "0x79A975746ED76D152524e07ed030EF84e298b438",
+  //     "0x4141B41ef3e87391FeD40d76a9d5350c2BD9638E",
+  //     "0xf33EDdcc0F79232DE20fbE59F1D814678161D79c",
+  //     "0xC946BF8e51E6861BEf8831a458cF174771a777F7",
+  //     "0xe63D576Dbff811650F9823a63Ed05DEfE5f43533",
+  //     stateTreeDepth,
+  //   ],
 
-  });
+  // });
 
   const pollDuration = 6000;
   const intStateTreeDepth = 2;

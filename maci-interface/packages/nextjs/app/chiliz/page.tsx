@@ -205,11 +205,8 @@ const MACIPage: NextPage = () => {
 
         // get logs from the transaction
         const iface = deployedContractData?.abi;
-        
-
-
-
-
+        // refresh the page
+        window.location.reload();
 
         // onChange();
       } catch (e: any) {
@@ -291,7 +288,7 @@ const MACIPage: NextPage = () => {
             <img src="http://localhost:3000/zkosios.png" alt="juve1" style={{ width: "70px", height: "auto" }} />
             <h2>ZKOSIOS</h2>
           </div>
-          <p>Balance: <br></br>{Number(displayTxResult(balanceOf))/1000} testJUV</p>
+          <p>Balance: <br></br>{Number(displayTxResult(balanceOf))} testJUV</p>
         </div>
         <br></br>
         <hr></hr>
@@ -314,7 +311,9 @@ const MACIPage: NextPage = () => {
         Next Poll Id:
         {nextPollId && displayTxResult(nextPollId)}
         </code>
-        <Poll icon={icon} title={"AWAY JERSEY 2024/2045"} address={pollAddressTmp}></Poll>
+        <Poll 
+        voiceTokenAddress={"0xe63D576Dbff811650F9823a63Ed05DEfE5f43533"}
+        icon={icon} title={"AWAY JERSEY 2024/2045"} address={pollAddressTmp}></Poll>
         <br></br>
         <hr></hr>
         <br></br>

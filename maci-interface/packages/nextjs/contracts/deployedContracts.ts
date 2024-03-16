@@ -1104,7 +1104,7 @@ const deployedContracts = {
       },
     },
     Poll: {
-      address: "0x3Aa5ebB10DC797CAC828524e59A333d0A371443c",
+      address: "0xc6e7DF5E7b4f2A278906862b61205850344D4e7d",
       abi: [
         {
           inputs: [
@@ -2355,7 +2355,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     SnarkVerifier: {
-      address: "0x9A676e781A523b5d0C0e43731313A708CB607508",
+      address: "0x0B306BF915C4d645ff596e518fAf3F9669b97016",
       abi: [
         {
           inputs: [

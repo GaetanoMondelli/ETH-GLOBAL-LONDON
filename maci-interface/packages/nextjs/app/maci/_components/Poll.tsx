@@ -3,6 +3,7 @@
 import React, { use, useEffect, useState } from "react";
 import { MaciPubKeyViewer } from "./MaciPubKeyViewer";
 import { BigNumber } from "@ethersproject/bignumber";
+import { Tag } from "antd";
 import { Keypair, PrivKey, PubKey } from "maci-domainobjs";
 import { useAccount, useContractRead, useContractWrite, useNetwork } from "wagmi";
 import { displayTxResult } from "~~/app/debug/_components/contract";
@@ -31,12 +32,14 @@ export function Poll({
   address,
   icon,
   title,
+  voiceTokenAddress,
   symbol,
 }: {
   address: string;
   icon?: string;
   title?: string;
   symbol?: string;
+  voiceTokenAddress?: string;
 }) {
   const writeTxn = useTransactor();
   const { chain } = useNetwork();
@@ -55,17 +58,58 @@ export function Poll({
   const queryResults = new Map<string, any>();
   const setStateVariables = [setNumMsg, setNumSignups, setCoordinatorPubKey, setFinished];
 
-  // const {
-  //   data: fini,
-  //   isLoading: isFinishedLoading,
-  //   writeAsync: finishAsync,
-  // } = useContractWrite({
-  //   address: address,
-  //   functionName: "setFinish",
-  //   abi: contractsData["Poll"].abi,
-  //   args: [true],
-  // });
+  // get state index from local storage
 
+  const stateIndex = localStorage.getItem("stateIndex");
+
+
+  const {
+    data: appr,
+    isLoading: isApproveLoading,
+    writeAsync: approveAsync,
+  } = useContractWrite({
+    address: voiceTokenAddress,
+    functionName: "approve",
+    abi: contractsData["TopupCredit"].abi,
+    args: [address, "10000"],
+  });
+
+  const handleApprove = async () => {
+    if (approveAsync) {
+      try {
+        const makeWriteWithParams = () => approveAsync();
+        await writeTxn(makeWriteWithParams);
+        // onChange();
+      } catch (e: any) {
+        const message = getParsedError(e);
+        notification.error(message);
+      }
+    }
+  };
+
+  const {
+    data: topp,
+    isLoading: isTopLoading,
+    writeAsync: topupAsync,
+  } = useContractWrite({
+    address: address,
+    functionName: "topup",
+    abi: contractsData["Poll"].abi,
+    args: [stateIndex, "10"],
+  });
+
+  const handleTopup = async () => {
+    if (topupAsync) {
+      try {
+        const makeWriteWithParams = () => topupAsync();
+        await writeTxn(makeWriteWithParams);
+        // onChange();
+      } catch (e: any) {
+        const message = getParsedError(e);
+        notification.error(message);
+      }
+    }
+  };
 
   const {
     data: fini,
@@ -163,9 +207,42 @@ export function Poll({
       </button>
       <br></br>
 
+      <h1>
+        Topup for{" "}
+        {stateIndex ? <Tag color="green">Stateindex: {stateIndex}</Tag> : <Tag color="red">NotRegistered</Tag>}
+      </h1>
+        <br></br>
+
+      <button
+        onClick={() => {
+          handleApprove();
+        }}
+        className="btn btn-secondary btn-sm"
+      >
+        Approve
+      </button>
+
+
+
+
+      <br></br>
+      <button
+        onClick={() => {
+          handleTopup();
+        }}
+        className="btn btn-secondary btn-sm"
+      >
+        Topup
+      </button>
+      <br></br>
+      <br></br>
+      <hr></hr>
+      <br></br>
+      <br></br>
+
       <h1>Num Messages</h1>
       <p>{numMsg && displayTxResult(numMsg)}</p>
-      <h1>Num Signups</h1>
+      <h1>Num Signups (when completed)</h1>
       <p>{numSignups && displayTxResult(numSignups)}</p>
       <h1>Coordinator Public Key</h1>
       {coordinatorPubKey && <MaciPubKeyViewer address={new PubKey(coordinatorPubKey).serialize()} />}
