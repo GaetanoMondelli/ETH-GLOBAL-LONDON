@@ -154,18 +154,10 @@ const config: HardhatUserConfig = {
       }
     ]
   },
-  networks: {
-    chiliz: {
-      url: 'https://rpc.chiliz.com',
-      accounts: [deployerPrivateKey2]
-    },
-  },
-
-  },
   // configuration for etherscan-verify from hardhat-deploy plugin
   verify: {
     etherscan: {
-      apiKey: `chiliz`,
+      apiKey: `${etherscanApiKey}`,
     },
   },
   sourcify: {
