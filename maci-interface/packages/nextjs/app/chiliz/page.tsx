@@ -63,17 +63,18 @@ const MACIPage: NextPage = () => {
   const DEFAULT_IVCP_DATA = "0x0000000000000000000000000000000000000000000000000000000000000000";
 
   const { data: deployedContractData, isLoading: deployedContractLoading } = useDeployedContractInfo(contractName);
-  const readMethods = ["stateAq", "nextPollId"];
+  const readMethods = ["stateAq", "nextPollId", "numSignUps"];
   const [stateAq, setStateAq] = useState<any>();
   const [nextPollId, setNextPollId] = useState<any>();
   const [maciPubKey, setMaciPubKey] = useState<any>();
+  const [numSignUps, setNumSignUps] = useState<any>();
   const [loadingVerify, setLoadingVerify] = useState(false);
   const [visibleModal, setVisibleModal] = useState("false");
   const [tally, setTally] = useState<any>();
   const [voteOption, setVoteOption] = useState<any>(0);
   const [weight, setWeight] = useState<any>(2);
   const queryResults = new Map<string, any>();
-  const setStateVariables = [setStateAq, setNextPollId];
+  const setStateVariables = [setStateAq, setNextPollId, setNumSignUps];
 
   // <Select.Option value="0">Option 0</Select.Option>
   // <Select.Option value="1">Option 1</Select.Option>
@@ -108,7 +109,7 @@ const MACIPage: NextPage = () => {
     queryResults.set(
       methodName,
       useContractRead({
-        address: "0x8e80FFe6Dc044F4A766Afd6e5a8732Fe0977A493",
+        address: maciAddress,
         functionName: methodName,
         abi: deployedContractData?.abi as any,
         args: [],
@@ -194,7 +195,22 @@ const MACIPage: NextPage = () => {
     if (writeAsync) {
       try {
         const makeWriteWithParams = () => writeAsync();
-        await writeTxn(makeWriteWithParams);
+        const txhashstring = await writeTxn(makeWriteWithParams);
+        // TO-DO: need to take this from the event
+        // STORE THE Number Signups (STATE INDEX) to the local storage
+        if (numSignUps) localStorage.setItem("stateIndex", numSignUps);
+        if (!txhashstring) {
+          return;
+        }
+
+        // get logs from the transaction
+        const iface = deployedContractData?.abi;
+        
+
+
+
+
+
         // onChange();
       } catch (e: any) {
         const message = getParsedError(e);
@@ -242,6 +258,8 @@ const MACIPage: NextPage = () => {
             // store those keys in the local storage
             localStorage.setItem("maciPubKey", keyPair.publicKey);
             localStorage.setItem("maciPrivKey", keyPair.privateKey);
+            // unset the state index
+            localStorage.removeItem("stateIndex");
           }}
           className="btn btn-secondary btn-sm"
         >
@@ -288,7 +306,14 @@ const MACIPage: NextPage = () => {
         <br></br>
         <hr></hr>
         <hr></hr>
-
+        <br></br>
+        <code>
+        Number Signups:
+        {numSignUps && displayTxResult(numSignUps)}
+        <br></br>
+        Next Poll Id:
+        {nextPollId && displayTxResult(nextPollId)}
+        </code>
         <Poll icon={icon} title={"AWAY JERSEY 2024/2045"} address={pollAddressTmp}></Poll>
         <br></br>
         <hr></hr>

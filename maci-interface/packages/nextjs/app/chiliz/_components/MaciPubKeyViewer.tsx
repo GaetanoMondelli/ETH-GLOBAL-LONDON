@@ -8,15 +8,30 @@ export const r = BigInt("2188824287183927522224640574525727508854836440041603434
 
 export function MaciPubKeyViewer({ address }: { address: string }) {
   return (
-    <div>
-      <Avatar 
+    <div
+    // center horizontally
+    >
+      <Avatar
         // style={{ border: "1px solid #000000", backgroundColor: "white"}}
-      size={64} src={`https://robohash.org/${address}`}></Avatar>
-      <p>
+        // margin rught 10px
+        style={{ marginLeft: "20px", marginBottom: "5px"}}
+        size={64}
+        src={`https://robohash.org/${address}`}
+      ></Avatar>
+      <div
+        style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+
+      >
         <Tooltip title={address}>
-          <Tag color="blue">{address.slice(7, 11).concat("...").concat(address.slice(-4))}</Tag>
+          <Tag color="blue">{address.slice(7, 13).concat("...").concat(address.slice(-4))}</Tag>
+          <br></br>
+          {localStorage.getItem("stateIndex") ? (
+            <Tag color="green">State Index: {localStorage.getItem("stateIndex")}</Tag>
+          ) : (
+            <Tag color="red">NotRegistered</Tag>
+          )}
         </Tooltip>
-      </p>
+      </div>
     </div>
   );
 }

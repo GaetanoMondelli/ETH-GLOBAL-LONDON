@@ -61,10 +61,11 @@ const MACIPage: NextPage = () => {
   const DEFAULT_IVCP_DATA = "0x0000000000000000000000000000000000000000000000000000000000000000";
 
   const { data: deployedContractData, isLoading: deployedContractLoading } = useDeployedContractInfo(contractName);
-  const readMethods = ["stateAq", "nextPollId"];
+  const readMethods = ["stateAq", "nextPollId", "numSignUps"];
   const [stateAq, setStateAq] = useState<any>();
   const [nextPollId, setNextPollId] = useState<any>();
   const [maciPubKey, setMaciPubKey] = useState<any>();
+  const [numSignUps, setNumSignups] = useState(false);
   const [loadingVerify, setLoadingVerify] = useState(false);
   const [visibleModal, setVisibleModal] = useState("false");
   const [tally, setTally] = useState<any>();

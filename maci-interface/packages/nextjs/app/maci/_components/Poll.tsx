@@ -55,6 +55,18 @@ export function Poll({
   const queryResults = new Map<string, any>();
   const setStateVariables = [setNumMsg, setNumSignups, setCoordinatorPubKey, setFinished];
 
+  // const {
+  //   data: fini,
+  //   isLoading: isFinishedLoading,
+  //   writeAsync: finishAsync,
+  // } = useContractWrite({
+  //   address: address,
+  //   functionName: "setFinish",
+  //   abi: contractsData["Poll"].abi,
+  //   args: [true],
+  // });
+
+
   const {
     data: fini,
     isLoading: isFinishedLoading,
