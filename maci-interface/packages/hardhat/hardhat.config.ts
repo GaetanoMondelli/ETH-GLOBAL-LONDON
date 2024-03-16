@@ -15,10 +15,16 @@ import "hardhat-artifactor";
 // You can get your own at https://dashboard.alchemyapi.io
 const providerApiKey = process.env.ALCHEMY_API_KEY || "oKxs-03sij-U_N0iOlrSsZFr29-IqbuF";
 // If not set, it uses the hardhat account 0 private key.
-const deployerPrivateKey =
-  process.env.DEPLOYER_PRIVATE_KEY ?? "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
+// const deployerPrivateKey =
+//   process.env.DEPLOYER_PRIVATE_KEY ?? "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 // If not set, it uses ours Etherscan default API key.
 const etherscanApiKey = process.env.ETHERSCAN_API_KEY || "DNXJA8RX2Q3VZ4URQIWP7Z68CJXQZSC6AW";
+
+
+const deployerPrivateKey =
+  process.env.DEPLOYER_PRIVATE_KEY ?? "1294695293f333466d699cca83fce35cf2c3dd960fd35a93d44ae548835c9b32";
+const deployerPrivateKey2 =
+  process.env.DEPLOYER_PRIVATE_KEY ?? "1294695293f333466d699cca83fce35cf2c3dd960fd35a93d44ae548835c9b32";
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -46,6 +52,10 @@ const config: HardhatUserConfig = {
         url: `https://eth-mainnet.alchemyapi.io/v2/${providerApiKey}`,
         enabled: process.env.MAINNET_FORKING_ENABLED === "true",
       },
+    },
+    chiliz: {
+      url: 'https://rpc.chiliz.com',
+      accounts: [deployerPrivateKey2]
     },
     mainnet: {
       url: `https://eth-mainnet.alchemyapi.io/v2/${providerApiKey}`,
@@ -130,12 +140,32 @@ const config: HardhatUserConfig = {
   },
   // configuration for harhdat-verify plugin
   etherscan: {
-    apiKey: `${etherscanApiKey}`,
+    apiKey: {
+      chiliz: "chiliz", // apiKey is not required, just set a placeholder
+    },
+    customChains: [
+      {
+        network: "chiliz",
+        chainId: 88888,
+        urls: {
+          apiURL: "https://api.routescan.io/v2/network/mainnet/evm/88888/etherscan",
+          browserURL: "https://chiliscan.com"
+        }
+      }
+    ]
+  },
+  networks: {
+    chiliz: {
+      url: 'https://rpc.chiliz.com',
+      accounts: [deployerPrivateKey2]
+    },
+  },
+
   },
   // configuration for etherscan-verify from hardhat-deploy plugin
   verify: {
     etherscan: {
-      apiKey: `${etherscanApiKey}`,
+      apiKey: `chiliz`,
     },
   },
   sourcify: {
