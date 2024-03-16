@@ -35,6 +35,8 @@ import { getAllContracts } from "~~/utils/scaffold-eth/contractsData";
 
 // import { DebugContracts } from "./_components/DebugContracts";
 
+// import { DebugContracts } from "./_components/DebugContracts";
+
 const TxnNotification = ({ message, blockExplorerLink }: { message: string; blockExplorerLink?: string }) => {
   return (
     <div className={`flex flex-col ml-1 cursor-default`}>
@@ -90,6 +92,10 @@ const MACIPage: NextPage = () => {
     "1": "Option 2",
     "2": "Option 3",
   };
+  
+  const voiceCreditSymbol="testJUV";
+
+  const icon = "https://creativereview.imgix.net/content/uploads/2017/01/Juve-sq.jpg"
 
   async function connectToMetamask() {
     if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
@@ -228,7 +234,13 @@ const MACIPage: NextPage = () => {
         </button>
         <br></br>
         <hr></hr>
+        <hr></hr>
+
+        <Poll icon={icon} title={"AWAY JERSEY 2024/2045"} address={pollAddressTmp}></Poll>
         <br></br>
+        <hr></hr>
+        <br></br>
+
         <h1
           style={{
             fontSize: "20px",
@@ -237,6 +249,7 @@ const MACIPage: NextPage = () => {
           AWAY JERSEY 2024/2045
         </h1>
         <p>Options</p>
+
         <Radio.Group
           onChange={value => {
             console.log(value.target.value);
@@ -275,7 +288,7 @@ const MACIPage: NextPage = () => {
         <br></br>
         <p>
           <b>
-            Vote weight for {voteOption} will cost {Number(weight) * Number(weight)}
+            Vote weight for {voteOption} will cost {Number(weight) * Number(weight)} {voiceCreditSymbol}
           </b>
           <br></br>
           <br></br>
@@ -349,6 +362,7 @@ const MACIPage: NextPage = () => {
         <br></br>
         <hr></hr>
         <button
+          className="btn btn-primary btn-sm"
           onClick={async () => {
             await mergeSignups({
               pollId: 0,
@@ -364,7 +378,6 @@ const MACIPage: NextPage = () => {
         >
           MERGE MESSAGES
         </button>
-        <Poll address={pollAddressTmp}></Poll>
         <br></br>
         <button
           className="btn btn-primary btn-sm"
@@ -451,6 +464,26 @@ const MACIPage: NextPage = () => {
                   .reduce((a: any, b: any) => Math.max(a, b)),
               )
           ]
+        }
+        {voiceCreditSymbol === "testJUV" ? (
+            <img src={`http://localhost:3000/juve${
+              tally?.circuitInputs?.currentResults
+              .map((value: any) => Number(value))
+              .indexOf(
+                tally?.circuitInputs?.currentResults
+                  .map((value: any) => Number(value))
+                  .reduce((a: any, b: any) => Math.max(a, b)),
+              ) + 1
+            }.png`} alt={
+              tally?.circuitInputs?.currentResults
+              .map((value: any) => Number(value))
+              .indexOf(
+                tally?.circuitInputs?.currentResults
+                  .map((value: any) => Number(value))
+                  .reduce((a: any, b: any) => Math.max(a, b)),
+              )
+            } style={{ width: "250px", height: "290px" }} />
+          ) : (<></>)  
         }
       </Modal>
     </>

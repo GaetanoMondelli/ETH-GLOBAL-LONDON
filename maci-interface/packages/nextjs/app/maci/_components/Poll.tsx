@@ -27,7 +27,17 @@ export const genKeyPair = ({ seed, quiet = true }: any): { publicKey: string; pr
   };
 };
 
-export function Poll({ address }: { address: string }) {
+export function Poll({
+  address,
+  icon,
+  title,
+  symbol,
+}: {
+  address: string;
+  icon?: string;
+  title?: string;
+  symbol?: string;
+}) {
   const writeTxn = useTransactor();
   const { chain } = useNetwork();
   const { address: connectedAddress } = useAccount();
@@ -113,11 +123,24 @@ export function Poll({ address }: { address: string }) {
         // textAlign: "center",
       }}
     >
+      {title && (
+        <>
+          <img src={icon} style={{ width: 50, height: 50 }} />
+          <h1
+            style={{
+              textAlign: "center",
+              fontSize: 20,
+            }}
+          >
+            {title}
+          </h1>
+        </>
+      )}
       <h1>Poll Id 0</h1>
       <br></br>
 
-      <h1>State</h1>
-      <p>{displayTxResult(finished)}</p>
+      {/* <h1>State</h1>
+      <p>{displayTxResult(finished)}</p> */}
       <button
         onClick={() => {
           handleFinish();
