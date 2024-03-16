@@ -25,6 +25,8 @@ import { getAllContracts } from "~~/utils/scaffold-eth/contractsData";
 
 // import { DebugContracts } from "./_components/DebugContracts";
 
+// import { DebugContracts } from "./_components/DebugContracts";
+
 const TxnNotification = ({ message, blockExplorerLink }: { message: string; blockExplorerLink?: string }) => {
   return (
     <div className={`flex flex-col ml-1 cursor-default`}>
@@ -113,6 +115,22 @@ const MACIPage: NextPage = () => {
     );
   });
 
+  const {
+    data: balanceOf,
+    isFetching,
+    refetch,
+  } = useContractRead({
+    address: "0xe63D576Dbff811650F9823a63Ed05DEfE5f43533",
+    functionName: "balanceOf",
+    abi: contractsData["TopupCredit"].abi,
+    args: [],
+    enabled: false,
+    onError: (error: any) => {
+      const parsedErrror = getParsedError(error);
+      console.log(parsedErrror);
+    },
+  });
+
   useEffect(() => {
     async function fetchData(isFetching: any, refetch: any, setData: any) {
       if (isFetching) {
@@ -129,6 +147,17 @@ const MACIPage: NextPage = () => {
       fetchData(queryResults.get(value).isFetching, queryResults.get(value).refetch, setStateVariables[key]);
     });
   }, [deployedContractData]);
+
+  useEffect(() => {
+    if (!maciPubKey) {
+      const maciPubKey = localStorage.getItem("maciPubKey");
+      const maciPrivKey = localStorage.getItem("maciPrivKey");
+      if (!maciPubKey || !maciPrivKey) return;
+      setMaciPubKey(maciPubKey);
+      setMaciPrivkey(maciPrivKey);
+      setMaciParam(PubKey.deserialize(maciPubKey).asContractParam());
+    }
+  }, []);
 
   const {
     data: result,

@@ -208,6 +208,14 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   const maci = await hre.ethers.getContract<Contract>("MACI", deployer);
   // node build/ts/index.js deployPoll -t 300 -i 1 -m 2 -b 1 -v 2 -pk $COORDINATOR_PUBLIC_KEY
 
+
+  // await topupCredit.airdropTo("0x2a1F5eB3e84e58e6F1e565306298B9dE1273f203", BigInt("10000000000000000"));
+
+  await topupCredit.airdrop("100000");
+
+
+  console.log("here i go again", await topupCredit.getAddress(), await topupCredit.owner());
+
   await hre.run("verify:verify", {
     address: "0xDCB5008c6074bEB53317027534431b2c75B77eD4",
     constructorArguments: [
@@ -220,6 +228,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
       "0xe63D576Dbff811650F9823a63Ed05DEfE5f43533",
       stateTreeDepth,
     ],
+
   });
 
   const pollDuration = 6000;

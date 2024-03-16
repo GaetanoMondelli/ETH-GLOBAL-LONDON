@@ -27,16 +27,6 @@ import { getAllContracts } from "~~/utils/scaffold-eth/contractsData";
 
 // import { DebugContracts } from "./_components/DebugContracts";
 
-// import { DebugContracts } from "./_components/DebugContracts";
-
-// import { DebugContracts } from "./_components/DebugContracts";
-
-// import { DebugContracts } from "./_components/DebugContracts";
-
-// import { DebugContracts } from "./_components/DebugContracts";
-
-// import { DebugContracts } from "./_components/DebugContracts";
-
 const TxnNotification = ({ message, blockExplorerLink }: { message: string; blockExplorerLink?: string }) => {
   return (
     <div className={`flex flex-col ml-1 cursor-default`}>
@@ -66,7 +56,9 @@ const MACIPage: NextPage = () => {
   const { address: connectedAddress } = useAccount();
 
   const contractName = "MACI";
-  const pollAddressTmp = "0xe082b26cEf079a095147F35c9647eC97c2401B83";
+  const pollAddressTmp = "0xc4E84A37F388b81a254b092ADa509Fe46075BFc7";
+  const maciAddress = "0xDCB5008c6074bEB53317027534431b2c75B77eD4";
+
   const DEFAULT_SG_DATA = "0x0000000000000000000000000000000000000000000000000000000000000000";
   const DEFAULT_IVCP_DATA = "0x0000000000000000000000000000000000000000000000000000000000000000";
 
@@ -92,10 +84,10 @@ const MACIPage: NextPage = () => {
     "1": "Option 2",
     "2": "Option 3",
   };
-  
-  const voiceCreditSymbol="testJUV";
 
-  const icon = "https://creativereview.imgix.net/content/uploads/2017/01/Juve-sq.jpg"
+  const voiceCreditSymbol = "testJUV";
+
+  const icon = "https://creativereview.imgix.net/content/uploads/2017/01/Juve-sq.jpg";
 
   async function connectToMetamask() {
     if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
@@ -146,16 +138,49 @@ const MACIPage: NextPage = () => {
     });
   }, [deployedContractData]);
 
+  useEffect(() => {
+    if (!maciPubKey) {
+      const maciPubKey = localStorage.getItem("maciPubKey");
+      const maciPrivKey = localStorage.getItem("maciPrivKey");
+      if (!maciPubKey || !maciPrivKey) return;
+      setMaciPubKey(maciPubKey);
+      setMaciPrivkey(maciPrivKey);
+      setMaciParam(PubKey.deserialize(maciPubKey).asContractParam());
+    }
+  }, []);
+
   const {
     data: result,
     isLoading,
     writeAsync,
   } = useContractWrite({
-    address: "0x9A676e781A523b5d0C0e43731313A708CB607508",
+    address: maciAddress,
     functionName: "signUp",
     abi: contractsData[contractName].abi,
     args: [maciParam, DEFAULT_SG_DATA, DEFAULT_IVCP_DATA],
   });
+
+  const {
+    data: balanceOf,
+    isFetching,
+    refetch,
+  } = useContractRead({
+    address: "0xe63D576Dbff811650F9823a63Ed05DEfE5f43533",
+    functionName: "balanceOf",
+    abi: contractsData["TopupCredit"].abi,
+    args: [connectedAddress],
+    enabled: false,
+    onError: (error: any) => {
+      const parsedErrror = getParsedError(error);
+      console.log(parsedErrror);
+    },
+  });
+
+  useEffect(() => {
+    if (!isFetching) {
+      refetch();
+    }
+  }, [connectedAddress]);
 
   const items: CollapseProps["items"] = [
     {
@@ -214,6 +239,9 @@ const MACIPage: NextPage = () => {
             setMaciPubKey(keyPair.publicKey);
             setMaciPrivkey(keyPair.privateKey);
             setMaciParam(PubKey.deserialize(keyPair.publicKey).asContractParam());
+            // store those keys in the local storage
+            localStorage.setItem("maciPubKey", keyPair.publicKey);
+            localStorage.setItem("maciPrivKey", keyPair.privateKey);
           }}
           className="btn btn-secondary btn-sm"
         >
@@ -221,7 +249,32 @@ const MACIPage: NextPage = () => {
         </button>
         <br></br>
         <br></br>
-        {maciPubKey && <MaciPubKeyViewer address={maciPubKey} />}
+        <div
+          // flex items on the same line
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginRight: "30%",
+            marginLeft: "30%",
+          }}
+        >
+          {maciPubKey && <MaciPubKeyViewer address={maciPubKey} />}
+          <div
+            // flex items on above the other
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <img src="http://localhost:3000/zkosios.png" alt="juve1" style={{ width: "70px", height: "auto" }} />
+            <h2>ZKOSIOS</h2>
+          </div>
+          <p>Balance: <br></br>{Number(displayTxResult(balanceOf))/1000} testJUV</p>
+        </div>
         <br></br>
         <hr></hr>
         <button
@@ -313,7 +366,7 @@ const MACIPage: NextPage = () => {
               nonce: BigInt(0),
               pollId: BigInt(0),
               newVoteWeight: BigInt(9),
-              maciContractAddress: "0x9A676e781A523b5d0C0e43731313A708CB607508",
+              maciContractAddress: maciAddress,
               salt: BigInt(0),
               privateKey: maciPrivKey,
               signer: (await connectToMetamask()) as any,
@@ -347,7 +400,7 @@ const MACIPage: NextPage = () => {
             await mergeMessages({
               pollId: 0,
               quiet: true,
-              maciContractAddress: "0x9A676e781A523b5d0C0e43731313A708CB607508",
+              maciContractAddress: maciAddress,
               numQueueOps: 0,
               signer: (await connectToMetamask()) as any,
             });
@@ -367,7 +420,7 @@ const MACIPage: NextPage = () => {
             await mergeSignups({
               pollId: 0,
               quiet: true,
-              maciContractAddress: "0x9A676e781A523b5d0C0e43731313A708CB607508",
+              maciContractAddress: maciAddress,
               numQueueOps: 0,
               signer: (await connectToMetamask()) as any,
             });
@@ -384,7 +437,7 @@ const MACIPage: NextPage = () => {
           onClick={async () => {
             const result = await genLocalState({
               coordinatorPrivateKey: "macisk.9db138fd3d7cb1c3dffef45d29c5cbc7dee307ca5daf5ccd9121bfffa8c79d2e",
-              maciContractAddress: "0x9A676e781A523b5d0C0e43731313A708CB607508",
+              maciContractAddress: maciAddress,
               pollId: BigInt(0),
               maciContractAbi: deployedContractData?.abi,
               pollContractAbi: contractsData["Poll"].abi,
@@ -466,25 +519,28 @@ const MACIPage: NextPage = () => {
           ]
         }
         {voiceCreditSymbol === "testJUV" ? (
-            <img src={`http://localhost:3000/juve${
+          <img
+            src={`http://localhost:3000/juve${
               tally?.circuitInputs?.currentResults
+                .map((value: any) => Number(value))
+                .indexOf(
+                  tally?.circuitInputs?.currentResults
+                    .map((value: any) => Number(value))
+                    .reduce((a: any, b: any) => Math.max(a, b)),
+                ) + 1
+            }.png`}
+            alt={tally?.circuitInputs?.currentResults
               .map((value: any) => Number(value))
               .indexOf(
                 tally?.circuitInputs?.currentResults
                   .map((value: any) => Number(value))
                   .reduce((a: any, b: any) => Math.max(a, b)),
-              ) + 1
-            }.png`} alt={
-              tally?.circuitInputs?.currentResults
-              .map((value: any) => Number(value))
-              .indexOf(
-                tally?.circuitInputs?.currentResults
-                  .map((value: any) => Number(value))
-                  .reduce((a: any, b: any) => Math.max(a, b)),
-              )
-            } style={{ width: "250px", height: "290px" }} />
-          ) : (<></>)  
-        }
+              )}
+            style={{ width: "250px", height: "290px" }}
+          />
+        ) : (
+          <></>
+        )}
       </Modal>
     </>
   );

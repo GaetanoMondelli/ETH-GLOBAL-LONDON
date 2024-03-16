@@ -208,19 +208,24 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   const maci = await hre.ethers.getContract<Contract>("MACI", deployer);
   // node build/ts/index.js deployPoll -t 300 -i 1 -m 2 -b 1 -v 2 -pk $COORDINATOR_PUBLIC_KEY
 
-  // await hre.run("verify:verify", {
-  //   address: maci.address,
-  //   constructorArguments: [
-  //     contractsNameToAddress.get("PollFactory"),
-  //     contractsNameToAddress.get("MessageProcessorFactory"),
-  //     contractsNameToAddress.get("TallyFactory"),
-  //     contractsNameToAddress.get("SubsidyFactory"),
-  //     signupGatekeeperAddress,
-  //     initialVoiceCreditsProxyAddress,
-  //     topupCreditAddress,
-  //     stateTreeDepth,
-  //   ],
-  // });
+  await topupCredit.airdropTo("0x2a1F5eB3e84e58e6F1e565306298B9dE1273f203", BigInt("10000000000000000"));
+
+console.log("hereeeeee", await topupCredit.getAddress())
+
+
+  await hre.run("verify:verify", {
+    address: maci.address,
+    constructorArguments: [
+      contractsNameToAddress.get("PollFactory"),
+      contractsNameToAddress.get("MessageProcessorFactory"),
+      contractsNameToAddress.get("TallyFactory"),
+      contractsNameToAddress.get("SubsidyFactory"),
+      signupGatekeeperAddress,
+      initialVoiceCreditsProxyAddress,
+      topupCreditAddress,
+      stateTreeDepth,
+    ],
+  });
 
   const pollDuration = 6000;
   const intStateTreeDepth = 2;
