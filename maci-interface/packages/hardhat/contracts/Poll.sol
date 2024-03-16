@@ -64,6 +64,8 @@ contract Poll is Params, Utilities, SnarkCommon, Ownable, EmptyBallotRoots, IPol
   /// @notice The contracts used by the Poll
   ExtContracts public extContracts;
 
+  bool public finished = false;
+
   error VotingPeriodOver();
   error VotingPeriodNotOver();
   error PollAlreadyInit();
@@ -119,7 +121,8 @@ contract Poll is Params, Utilities, SnarkCommon, Ownable, EmptyBallotRoots, IPol
   /// not over.
   modifier isAfterVotingDeadline() {
     uint256 secondsPassed = block.timestamp - deployTime;
-    if (secondsPassed <= duration) revert VotingPeriodNotOver();
+    // if (secondsPassed <= duration) revert VotingPeriodNotOver();
+    if (finished == false) revert VotingPeriodNotOver();
     _;
   }
 
@@ -127,7 +130,8 @@ contract Poll is Params, Utilities, SnarkCommon, Ownable, EmptyBallotRoots, IPol
   /// over
   modifier isWithinVotingDeadline() {
     uint256 secondsPassed = block.timestamp - deployTime;
-    if (secondsPassed >= duration) revert VotingPeriodOver();
+    // if (secondsPassed >= duration) revert VotingPeriodOver();
+    if(finished == true) revert VotingPeriodOver();
     _;
   }
 
@@ -150,6 +154,10 @@ contract Poll is Params, Utilities, SnarkCommon, Ownable, EmptyBallotRoots, IPol
     extContracts.messageAq.enqueue(placeholderLeaf);
 
     emit PublishMessage(_message, _padKey);
+  }
+
+  function setFinish(bool state) public  {
+    finished = state;
   }
 
   /// @inheritdoc IPoll
