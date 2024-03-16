@@ -53,7 +53,7 @@ const config: HardhatUserConfig = {
     sepolia: getCommonNetworkConfig(ESupportedChains.Sepolia, EChainId.Sepolia),
     coverage: getCommonNetworkConfig(ESupportedChains.Coverage, EChainId.Coverage, TEST_MNEMONIC),
     localhost: {
-      url: "http://localhost:8545",
+      url: "http://120.0.0.1:8545",
       loggingEnabled: false,
     },
     hardhat: {

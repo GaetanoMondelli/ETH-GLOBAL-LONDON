@@ -1472,6 +1472,19 @@ const deployedContracts = {
         },
         {
           inputs: [],
+          name: "finished",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
           name: "getDeployTimeAndDuration",
           outputs: [
             {
@@ -1975,6 +1988,19 @@ const deployedContracts = {
         {
           inputs: [],
           name: "renounceOwnership",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bool",
+              name: "state",
+              type: "bool",
+            },
+          ],
+          name: "setFinish",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",

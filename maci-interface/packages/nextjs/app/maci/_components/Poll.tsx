@@ -51,7 +51,7 @@ export function Poll({ address }: { address: string }) {
     writeAsync: finishAsync,
   } = useContractWrite({
     address: address,
-    functionName: "finish",
+    functionName: "setFinish",
     abi: contractsData["Poll"].abi,
     args: [true],
   });

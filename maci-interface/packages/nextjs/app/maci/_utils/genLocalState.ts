@@ -70,5 +70,5 @@ export const genLocalState = async ({
   // fs.writeFileSync(outputPath, JSON.stringify(serializedState, null, 4));
   console.log(serializedState);
 
-  console.log(`The state has been written to ${outputPath}`);
+  // console.log(`The state has been written to ${outputPath}`);
 };

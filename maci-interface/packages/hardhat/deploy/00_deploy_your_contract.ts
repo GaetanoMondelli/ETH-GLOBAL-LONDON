@@ -16,6 +16,7 @@ import { publish } from "../../../../cli/ts/commands/publish";
 import { time } from "@nomicfoundation/hardhat-network-helpers";
 import { mergeSignups } from "../../../../cli/ts/commands/mergeSignups";
 import { mergeMessages } from "../../../../cli/ts/commands/mergeMessages";
+import { genProofs } from "../../../../cli/ts/commands/genProofs";
 
 /**
  * Deploys a contract named "YourContract" using the deployer account and
@@ -205,11 +206,12 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   });
 
   const maci = await hre.ethers.getContract<Contract>("MACI", deployer);
+  // node build/ts/index.js deployPoll -t 300 -i 1 -m 2 -b 1 -v 2 -pk $COORDINATOR_PUBLIC_KEY
 
-  const pollDuration = 60000;
+  const pollDuration = 6000;
   const intStateTreeDepth = 2;
-  const messageTreeSubDepth = 2;
   const messageTreeDepth = 2;
+  const messageTreeSubDepth = 1;
   const voteOptionTreeDepth = 2;
   const subsidyEnabled = false;
 
@@ -257,7 +259,6 @@ const coordinatorPrivateKey = "macisk.9db138fd3d7cb1c3dffef45d29c5cbc7dee307ca5d
   await maci.signUp(unserializedKey.asContractParam(), DEFAULT_SG_DATA, DEFAULT_IVCP_DATA);
   await maci.signUp(unserializedKey.asContractParam(), DEFAULT_SG_DATA, DEFAULT_IVCP_DATA);
 
-  
 
   await publish({
     pubkey: userPubKey,
@@ -265,7 +266,7 @@ const coordinatorPrivateKey = "macisk.9db138fd3d7cb1c3dffef45d29c5cbc7dee307ca5d
     voteOptionIndex: BigInt(0),
     nonce: BigInt(0),
     pollId: BigInt(0),
-    newVoteWeight: BigInt(10),
+    newVoteWeight: BigInt(3),
     maciContractAddress: await maci.getAddress(),
     salt: BigInt(0),
     privateKey: userPrivateKey,
@@ -277,6 +278,12 @@ const coordinatorPrivateKey = "macisk.9db138fd3d7cb1c3dffef45d29c5cbc7dee307ca5d
   // time.increase(pollDuration*2);
   // const DEFAULT_SR_QUEUE_OPS = 4;
 
+  // const firstPoll = await maci.getPoll(0);
+
+
+  // const pollContract = await hre.ethers.getContractAt("Poll", firstPoll, signer2Provider);
+
+  // const finished = await pollContract.setFinish(true);
 
   // await mergeSignups({
   //   pollId: BigInt(0),
@@ -292,6 +299,33 @@ const coordinatorPrivateKey = "macisk.9db138fd3d7cb1c3dffef45d29c5cbc7dee307ca5d
   //   maciContractAddress: await maci.getAddress(),
   //   numQueueOps: DEFAULT_SR_QUEUE_OPS.toString(),
   //   quiet: false,
+  //   signer: signer2Provider as unknown as Signer,
+  // });
+
+  // node build/ts/index.js genProofs \
+  // -sk $COORDINATOR_PRIVATE_KEY \
+  // -o 0 \
+  // -t tally33.json \
+  // -f proofs \
+  // -zp ./zkeys/ProcessMessages_10-2-1-2_test/ProcessMessages_10-2-1-2_test.0.zkey \
+  // -zt ./zkeys/TallyVotes_10-1-2_test/TallyVotes_10-1-2_test.0.zkey \
+  // -tw ./zkeys/TallyVotes_10-1-2_test/TallyVotes_10-1-2_test_js/TallyVotes_10-1-2_test.wasm \
+  // -pw ./zkeys/ProcessMessages_10-2-1-2_test/ProcessMessages_10-2-1-2_test_js/ProcessMessages_10-2-1-2_test.wasm \
+  // -w true \
+
+
+
+  // await genProofs({
+  //   pollId: BigInt(0),
+  //   tallyFile: "/Users/gaetano/dev/maci/maci-interface/packages/nextjs/app/maci/_utils/path/tallyyy.json",
+  //   outputDir: "/Users/gaetano/dev/maci/maci-interface/packages/nextjs/app/maci/_utils/path",
+  //   processZkey: "/Users/gaetano/dev/maci/maci-interface/packages/hardhat/zkeys/ProcessMessages_10-2-1-2_test/ProcessMessages_10-2-1-2_test.0.zkey",
+  //   tallyZkey: "/Users/gaetano/dev/maci/maci-interface/packages/hardhat/zkeys/TallyVotes_10-1-2_test/TallyVotes_10-1-2_test.0.zkey",
+  //   processWasm: "/Users/gaetano/dev/maci/maci-interface/packages/hardhat/zkeys/ProcessMessages_10-2-1-2_test/ProcessMessages_10-2-1-2_test_js/ProcessMessages_10-2-1-2_test.wasm",
+  //   tallyWasm: "/Users/gaetano/dev/maci/maci-interface/packages/hardhat/zkeys/TallyVotes_10-1-2_test/TallyVotes_10-1-2_test_js/TallyVotes_10-1-2_test.wasm",
+  //   maciAddress: "0x9A676e781A523b5d0C0e43731313A708CB607508",
+  //   coordinatorPrivKey: "macisk.9db138fd3d7cb1c3dffef45d29c5cbc7dee307ca5daf5ccd9121bfffa8c79d2e",
+  //   useWasm: true,
   //   signer: signer2Provider as unknown as Signer,
   // });
 

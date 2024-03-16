@@ -11,6 +11,7 @@
 # next.js
 /.next/
 /out/
+tally2.ts
 
 # production
 /build
