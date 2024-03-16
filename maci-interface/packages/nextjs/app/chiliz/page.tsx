@@ -12,7 +12,7 @@ import { mergeSignups } from "./_utils/mergeSignups";
 import { publish } from "./_utils/publish";
 import "./index.css";
 import { BigNumber } from "@ethersproject/bignumber";
-import { Collapse, CollapseProps, InputNumber, Modal, Select, Spin } from "antd";
+import { Collapse, CollapseProps, InputNumber, Modal, Radio, Select, Spin } from "antd";
 import { ethers } from "ethers";
 import { Keypair, PubKey } from "maci-domainobjs";
 import type { NextPage } from "next";
@@ -22,6 +22,16 @@ import { useDeployedContractInfo, useTransactor } from "~~/hooks/scaffold-eth";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 import { getParsedError, notification } from "~~/utils/scaffold-eth";
 import { getAllContracts } from "~~/utils/scaffold-eth/contractsData";
+
+// import { DebugContracts } from "./_components/DebugContracts";
+
+// import { DebugContracts } from "./_components/DebugContracts";
+
+// import { DebugContracts } from "./_components/DebugContracts";
+
+// import { DebugContracts } from "./_components/DebugContracts";
+
+// import { DebugContracts } from "./_components/DebugContracts";
 
 // import { DebugContracts } from "./_components/DebugContracts";
 
@@ -75,7 +85,7 @@ const MACIPage: NextPage = () => {
   // <Select.Option value="1">Option 1</Select.Option>
   // <Select.Option value="2">Option 2</Select.Option>
 
-  const options: Record<string, string> = {
+  const options: Record<string, any> = {
     "0": "Option 1",
     "1": "Option 2",
     "2": "Option 3",
@@ -176,7 +186,17 @@ const MACIPage: NextPage = () => {
         }}
         className="card"
       >
-        <h1 className="text-4xl my-0">MACI</h1>
+        <img
+          src="https://www.chiliz.com/wp-content/uploads/2023/02/chiliz-logo-v3.svg"
+          alt="Chiliz"
+          style={{
+            width: "200px",
+            height: "auto",
+            display: "block",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        />
         <br></br>
         {/* <p>State of polls</p>
         <p>{stateAq && displayTxResult(stateAq)}</p> */}
@@ -194,13 +214,10 @@ const MACIPage: NextPage = () => {
           Generate MACI wallet
         </button>
         <br></br>
-
         <br></br>
-
         {maciPubKey && <MaciPubKeyViewer address={maciPubKey} />}
         <br></br>
         <hr></hr>
-
         <button
           onClick={() => {
             handleWrite();
@@ -210,34 +227,52 @@ const MACIPage: NextPage = () => {
           Sign up to MACI
         </button>
         <br></br>
-
         <hr></hr>
         <br></br>
-
         <h1
           style={{
             fontSize: "20px",
           }}
         >
-          Vote
+          AWAY JERSEY 2024/2045
         </h1>
         <p>Options</p>
-        <Select
+        <Radio.Group
+          onChange={value => {
+            console.log(value.target.value);
+            setVoteOption(value.target.value);
+          }}
+          // value={voteOption}
+        >
+          <Radio value={0}>
+            <div>
+              <img src="http://localhost:3000/juve1.png" alt="juve1" style={{ width: "250px", height: "290px" }} />
+            </div>
+          </Radio>
+          <Radio value={1}>
+            <div>
+              <img src="http://localhost:3000/juve2.png" alt="juve1" style={{ width: "250px", height: "290px" }} />
+            </div>
+          </Radio>
+          <Radio value={2}>
+            <div>
+              <img src="http://localhost:3000/juve3.png" alt="juve1" style={{ width: "250px", height: "290px" }} />
+            </div>
+          </Radio>
+        </Radio.Group>
+
+        {/* <Select
           onChange={value => {
             console.log(value);
             setVoteOption(value);
           }}
           defaultValue="0"
         >
-          {/* <Select.Option value="0">Option 0</Select.Option>
-          <Select.Option value="1">Option 1</Select.Option>
-          <Select.Option value="2">Option 2</Select.Option> */}
           {Object.keys(options).map(key => {
             return <Select.Option value={key}>{options[key]}</Select.Option>;
           })}
-        </Select>
+        </Select> */}
         <br></br>
-
         <p>
           <b>
             Vote weight for {voteOption} will cost {Number(weight) * Number(weight)}
@@ -254,10 +289,8 @@ const MACIPage: NextPage = () => {
             }}
           />
         </p>
-
         <br></br>
         <br></br>
-
         <button
           onClick={async () => {
             const result = await publish({
@@ -288,18 +321,13 @@ const MACIPage: NextPage = () => {
         >
           Vote
         </button>
-
         <br></br>
         <hr></hr>
-
         <h1>ADMIN</h1>
-
         <br></br>
         <br></br>
         <br></br>
-
         <hr></hr>
-
         <button
           className="btn btn-primary btn-sm"
           onClick={async () => {
@@ -320,7 +348,6 @@ const MACIPage: NextPage = () => {
         <br></br>
         <br></br>
         <hr></hr>
-
         <button
           onClick={async () => {
             await mergeSignups({
@@ -339,7 +366,6 @@ const MACIPage: NextPage = () => {
         </button>
         <Poll address={pollAddressTmp}></Poll>
         <br></br>
-
         <button
           className="btn btn-primary btn-sm"
           onClick={async () => {
@@ -359,10 +385,8 @@ const MACIPage: NextPage = () => {
         >
           GenState
         </button>
-
         <hr></hr>
         <hr></hr>
-
         <button
           className="btn btn-primary btn-sm"
           onClick={async () => {
@@ -374,7 +398,6 @@ const MACIPage: NextPage = () => {
         >
           Tally
         </button>
-
         <hr></hr>
       </div>
 
