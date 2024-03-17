@@ -14,11 +14,10 @@ export function MaciPubKeyViewer({ address }: { address: string }) {
       <Avatar
         // style={{ border: "1px solid #000000", backgroundColor: "white"}}
         // margin rught 10px
-        // style={{ marginLeft: "20px", marginBottom: "5px"}}
-        shape="square"
-      size={64} src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${address}`}></Avatar>
-
-        {/* src={`https://robohash.org/${address}`} */}
+        style={{ marginLeft: "20px", marginBottom: "5px"}}
+        size={64}
+        src={`https://robohash.org/${address}`}
+      ></Avatar>
       <div
         style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
 
