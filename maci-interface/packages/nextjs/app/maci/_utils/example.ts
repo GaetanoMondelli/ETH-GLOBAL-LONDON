@@ -84,14 +84,14 @@ async function main() {
 
   await mergeMessages({
     pollId: 0,
-    maciContractAddress: "0x9A676e781A523b5d0C0e43731313A708CB607508",
+    maciContractAddress: "0xDCB5008c6074bEB53317027534431b2c75B77eD4",
     numQueueOps: 1,
     signer,
   });
 
   await mergeSignups({
     pollId: 0,
-    maciContractAddress: "0x9A676e781A523b5d0C0e43731313A708CB607508",
+    maciContractAddress: "0xDCB5008c6074bEB53317027534431b2c75B77eD4",
     numQueueOps: 1,
     signer,
   });
@@ -104,7 +104,7 @@ async function main() {
     processZkey:
       "/Users/gaetano/dev/maci/maci-interface/packages/hardhat/zkeys/ProcessMessages_10-2-1-2_test/ProcessMessages_10-2-1-2_test.0.zkey",
     pollId: 0,
-    maciAddress: "0x9A676e781A523b5d0C0e43731313A708CB607508",
+    maciAddress: "0xDCB5008c6074bEB53317027534431b2c75B77eD4",
     coordinatorPrivKey: "macisk.9db138fd3d7cb1c3dffef45d29c5cbc7dee307ca5daf5ccd9121bfffa8c79d2e",
     processWasm:
       "/Users/gaetano/dev/maci/maci-interface/packages/hardhat/zkeys/ProcessMessages_10-2-1-2_test/ProcessMessages_10-2-1-2_test_js/ProcessMessages_10-2-1-2_test.wasm",

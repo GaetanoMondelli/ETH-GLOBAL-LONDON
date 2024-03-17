@@ -229,7 +229,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
         PoseidonT6: poseidonT6Address,
       },
     });
-
+  }
 
   const maci = await hre.ethers.getContract<Contract>("MACI", deployer);
   // node build/ts/index.js deployPoll -t 300 -i 1 -m 2 -b 1 -v 2 -pk $COORDINATOR_PUBLIC_KEY

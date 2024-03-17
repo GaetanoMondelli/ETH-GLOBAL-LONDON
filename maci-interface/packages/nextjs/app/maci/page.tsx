@@ -71,6 +71,9 @@ const MACIPage: NextPage = () => {
   const [tally, setTally] = useState<any>();
   const [voteOption, setVoteOption] = useState<any>(0);
   const [weight, setWeight] = useState<any>(2);
+  const [proof, setProof] = useState<any>();
+  const [vk, setVk] = useState<any>();
+  const [input, setInput] = useState<any>();
   const queryResults = new Map<string, any>();
   const setStateVariables = [setStateAq, setNextPollId];
 
@@ -159,6 +162,23 @@ const MACIPage: NextPage = () => {
       setMaciParam(PubKey.deserialize(maciPubKey).asContractParam());
     }
   }, []);
+
+
+  const {
+    data: verify,
+    isLoading:isverify,
+    writeAsync: verifyAsync,
+  } = useContractWrite({
+    address: "0x9A676e781A523b5d0C0e43731313A708CB607508",
+    functionName: "signUp",
+    abi: contractsData[contractName].abi,
+    args: [
+      proof,
+      vk,
+      input
+    ],
+  });
+
 
   const {
     data: result,
@@ -413,8 +433,18 @@ const MACIPage: NextPage = () => {
         visible={visibleModal == "tally"}
         okText="Verify"
         okButtonProps={{ style: { backgroundColor: "green", borderColor: "green", color: "white" } }}
-        onOk={() => {
-          setLoadingVerify(true);
+        onOk={async () => {
+          // setLoadingVerify(true);
+          // fetch proof, vk and input from localhost/api/tally2
+          // fetch proof, vk and input from localhost/api/proofs
+          const response = await fetch("http://localhost:3000/api/proofs");
+          const result = await response.json();
+          setProof(result.proof);
+          setVk(result.vk);
+          setInput(result.input);
+          await verifyAsync();
+
+          
           setTimeout(() => {
             notification.success(<TxnNotification message="Tally virfied on chain!" />, {
               icon: "✅ ",
