@@ -19,6 +19,13 @@ COORDINATOR_PRIVATE_KEY=macisk.9db138fd3d7cb1c3dffef45d29c5cbc7dee307ca5daf5ccd9
 # rm tally2.json
 # rm tally3.json
 
+
+
+# make sure to have the hardhat node running on 127..0.0.1:8545 sometimes does not match localhsot:8545
+echo 'Running Hardhat node'
+npm run chain &
+
+
 echo "Deploying VK Registry"
 
 VK_REGISTRY_ADDRESS=$(node build/ts/index.js deployVkRegistry | grep -o "0x[0-9a-fA-F]*")
