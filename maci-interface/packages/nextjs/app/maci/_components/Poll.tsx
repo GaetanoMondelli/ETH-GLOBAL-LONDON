@@ -195,8 +195,15 @@ export function Poll({
       <h1>Poll Id 0</h1>
       <br></br>
 
-      {/* <h1>State</h1>
-      <p>{displayTxResult(finished)}</p> */}
+      <h1>State</h1>
+      {
+        finished ? (
+          <Tag color="red">Finished</Tag>
+        ) : (
+          <Tag color="green">Open</Tag>
+        )
+      }
+      <br></br>
       <button
         onClick={() => {
           handleFinish();

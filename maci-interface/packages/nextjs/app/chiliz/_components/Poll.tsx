@@ -118,6 +118,7 @@ export function Poll({ address }: { address: string }) {
 
       <h1>State</h1>
       <p>{displayTxResult(finished)}</p>
+      <br></br>
       <button
         onClick={() => {
           handleFinish();
