@@ -38,8 +38,6 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
 
-  
-
   await deploy("VkRegistry", {
     from: deployer,
     // Contract constructor arguments
@@ -182,37 +180,63 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   }
 
   const stateTreeDepth = 10;
+  const juveTokenAddressForVoting = "0x1ED7858225dF2a3365d07dD7C08d165D6A399bE6";
 
-  await deploy("MACI", {
-    from: deployer,
-    args: [
-      contractsNameToAddress.get("PollFactory"),
-      contractsNameToAddress.get("MessageProcessorFactory"),
-      contractsNameToAddress.get("TallyFactory"),
-      contractsNameToAddress.get("SubsidyFactory"),
-      signupGatekeeperAddress,
-      initialVoiceCreditsProxyAddress,
-      topupCreditAddress,
-      stateTreeDepth,
-    ],
-    log: true,
-    autoMine: true,
-    libraries: {
-      PoseidonT3: poseidonT3Address,
-      PoseidonT4: poseidonT4Address,
-      PoseidonT5: poseidonT5Address,
-      PoseidonT6: poseidonT6Address,
-    },
-  });
+
+  if (hre.network.name === "chiliz") {
+    await deploy("MACI", {
+      from: deployer,
+      args: [
+        contractsNameToAddress.get("PollFactory"),
+        contractsNameToAddress.get("MessageProcessorFactory"),
+        contractsNameToAddress.get("TallyFactory"),
+        contractsNameToAddress.get("SubsidyFactory"),
+        signupGatekeeperAddress,
+        initialVoiceCreditsProxyAddress,
+        // topupCreditAddress,
+        juveTokenAddressForVoting,
+        stateTreeDepth,
+      ],
+      log: true,
+      autoMine: true,
+      libraries: {
+        PoseidonT3: poseidonT3Address,
+        PoseidonT4: poseidonT4Address,
+        PoseidonT5: poseidonT5Address,
+        PoseidonT6: poseidonT6Address,
+      },
+    });
+  }
+  else {
+    await deploy("MACI", {
+      from: deployer,
+      args: [
+        contractsNameToAddress.get("PollFactory"),
+        contractsNameToAddress.get("MessageProcessorFactory"),
+        contractsNameToAddress.get("TallyFactory"),
+        contractsNameToAddress.get("SubsidyFactory"),
+        signupGatekeeperAddress,
+        initialVoiceCreditsProxyAddress,
+        topupCreditAddress,
+        stateTreeDepth,
+      ],
+      log: true,
+      autoMine: true,
+      libraries: {
+        PoseidonT3: poseidonT3Address,
+        PoseidonT4: poseidonT4Address,
+        PoseidonT5: poseidonT5Address,
+        PoseidonT6: poseidonT6Address,
+      },
+    });
+
 
   const maci = await hre.ethers.getContract<Contract>("MACI", deployer);
   // node build/ts/index.js deployPoll -t 300 -i 1 -m 2 -b 1 -v 2 -pk $COORDINATOR_PUBLIC_KEY
 
-
   // await topupCredit.airdropTo("0x2a1F5eB3e84e58e6F1e565306298B9dE1273f203", BigInt("10000000000000000"));
 
   await topupCredit.airdrop("100000");
-
 
   // console.log("here i go again", await topupCredit.getAddress(), await topupCredit.owner());
 
@@ -251,9 +275,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   const userPubKey = "macipk.f61e0aa75073f94c681cc495990cee21027208348598d65638696a1a3754f29b";
   const userPrivateKey = "macisk.48674bb3cff1761affd1d5b25edfe2cd58963561010c0b1a1f52c4bd16315b5c";
 
-
-const coordinatorPrivateKey = "macisk.9db138fd3d7cb1c3dffef45d29c5cbc7dee307ca5daf5ccd9121bfffa8c79d2e";
-
+  const coordinatorPrivateKey = "macisk.9db138fd3d7cb1c3dffef45d29c5cbc7dee307ca5daf5ccd9121bfffa8c79d2e";
 
   const coordinatorPubkey = "macipk.21d4940747c489b5cfb650e18137275fed6d1f6011bc443faed02099dd9aa5aa";
   const unserializedKey = PubKey.deserialize(coordinatorPubkey);
@@ -277,11 +299,9 @@ const coordinatorPrivateKey = "macisk.9db138fd3d7cb1c3dffef45d29c5cbc7dee307ca5d
     { gasLimit: 10000000 },
   );
 
-
   // const userUnserializedKey = PubKey.deserialize(userPubKey);
   await maci.signUp(unserializedKey.asContractParam(), DEFAULT_SG_DATA, DEFAULT_IVCP_DATA);
   await maci.signUp(unserializedKey.asContractParam(), DEFAULT_SG_DATA, DEFAULT_IVCP_DATA);
-
 
   await publish({
     pubkey: userPubKey,
@@ -297,12 +317,10 @@ const coordinatorPrivateKey = "macisk.9db138fd3d7cb1c3dffef45d29c5cbc7dee307ca5d
     quiet: false,
   });
 
-
   // time.increase(pollDuration*2);
   // const DEFAULT_SR_QUEUE_OPS = 4;
 
   // const firstPoll = await maci.getPoll(0);
-
 
   // const pollContract = await hre.ethers.getContractAt("Poll", firstPoll, signer2Provider);
 
@@ -315,7 +333,6 @@ const coordinatorPrivateKey = "macisk.9db138fd3d7cb1c3dffef45d29c5cbc7dee307ca5d
   //   quiet: false,
   //   signer: signer2Provider as unknown as Signer,
   // });
-
 
   // await mergeMessages({
   //   pollId: BigInt(0),
@@ -336,8 +353,6 @@ const coordinatorPrivateKey = "macisk.9db138fd3d7cb1c3dffef45d29c5cbc7dee307ca5d
   // -pw ./zkeys/ProcessMessages_10-2-1-2_test/ProcessMessages_10-2-1-2_test_js/ProcessMessages_10-2-1-2_test.wasm \
   // -w true \
 
-
-
   // await genProofs({
   //   pollId: BigInt(0),
   //   tallyFile: "/Users/gaetano/dev/maci/maci-interface/packages/nextjs/app/maci/_utils/path/tallyyy.json",
@@ -352,14 +367,13 @@ const coordinatorPrivateKey = "macisk.9db138fd3d7cb1c3dffef45d29c5cbc7dee307ca5d
   //   signer: signer2Provider as unknown as Signer,
   // });
 
-
   await deploy("Poll", {
     from: deployer,
     // Contract constructor arguments
     args: [
       60000,
       {
-        maxMessages:100,
+        maxMessages: 100,
         maxVoteOptions: 200,
       },
       {
@@ -386,8 +400,6 @@ const coordinatorPrivateKey = "macisk.9db138fd3d7cb1c3dffef45d29c5cbc7dee307ca5d
       PoseidonT6: poseidonT6Address,
     },
   });
-
-  
 };
 
 export default deployYourContract;
