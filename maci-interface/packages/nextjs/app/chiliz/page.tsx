@@ -22,6 +22,7 @@ import { useDeployedContractInfo, useTransactor } from "~~/hooks/scaffold-eth";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 import { getParsedError, notification } from "~~/utils/scaffold-eth";
 import { getAllContracts } from "~~/utils/scaffold-eth/contractsData";
+// import Tweet from './Tweet';
 
 // import { DebugContracts } from "./_components/DebugContracts";
 
@@ -242,6 +243,7 @@ const MACIPage: NextPage = () => {
           }}
         />
         <br></br>
+        {/* <Tweet text="Share the zKosios poll at localhost:3000/chill" /> */}
         {/* <p>State of polls</p>
         <p>{stateAq && displayTxResult(stateAq)}</p> */}
         {/* <p>Next poll id</p>
@@ -481,7 +483,6 @@ const MACIPage: NextPage = () => {
           className="btn btn-primary btn-sm"
           onClick={async () => {
             const response = await fetch("http://localhost:3000/api/tally2");
-            const result = await response.json();
             setTally(result);
             setVisibleModal("tally");
           }}
