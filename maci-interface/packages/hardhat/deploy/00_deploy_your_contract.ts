@@ -262,7 +262,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   const voteOptionTreeDepth = 2;
   const subsidyEnabled = false;
 
-  await deploy("SnarkVerifier", {
+  await deploy("Verifier", {
     from: deployer,
     args: [],
     log: true,
